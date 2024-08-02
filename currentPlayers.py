@@ -19,11 +19,13 @@ class currentPlayers:
         self.players = players
         self.longestRoad = None
         self.largestArmy = None
+        self.setLongestRoad = 5
+        self.setLargestArmy = 3
     
     def checkLongestRoad(self,player):
-        if player.roads >=5:
+        if player.roads >= self.setLongestRoad:
             if self.longestRoad == None:
-                print(f"{player.name} has the longest road")
+                print(f"{player.name} has the longest road!")
                 self.longestRoad = player
                 self.players[player.name].victory_points += 2
             if  player.roads > self.longestRoad.roads:
@@ -31,10 +33,22 @@ class currentPlayers:
                 self.players[self.longestRoad.name].victory_points -= 2
                 self.longestRoad = player
                 self.players[player.name].victory_points += 2
+    def checkLargestArmy(self,player):
+        if player.knights >= self.setLargestArmy:
+            if self.largestArmy == None:
+                print(f"{player.name} has the largest army!")
+                self.largestArmy = player
+                self.players[player.name].victory_points += 2
+            if player.knights > self.largestArmy.knights:
+                print(f"{player.name} has the largest army")
+                self.players[self.largestArmy.name].victory_points -= 2
+                self.largestArmy = player
+                self.players[player.name].victory_points += 2
+                
                 
     def playersTurn(self):
         BAR = "***************************************************************"
-        print(self.players)
+        
         for key in self.players:
             player = self.players[key]
             print(f"{player.name}'s turn:")
@@ -87,11 +101,13 @@ class currentPlayers:
                 elif action == 'build_road':
                     if player.build_road():
                         print("Road Built")
+                        self.checkLongestRoad(player)
                     else:
                         print("Not enough resources!")
                 elif action == 'build_knight':
                     if player.build_knight():
                         print("Got Knight!")
+                        self.checkLargestArmy(player)
                     else:
                         print("Not enough resources!")
                 elif action == ('pass'):

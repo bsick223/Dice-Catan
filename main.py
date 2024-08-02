@@ -1,52 +1,26 @@
 import random
 from player import Player
 from currentPlayers import currentPlayers
-# resource_map = {1: 'gold', 2: 'wood', 3: 'brick', 4: 'grain', 5: 'sheep', 6: 'ore'}
-# BAR = "***************************************************************"
-
-# To-Do: Gold, wheat
-# To-Do: Final roll is the same as 2nd
-# To-Do: Show the player stats after building something
-
-# def roll_dice(dice):
-#     for i in range(len(dice)):
-#         if dice[i] is None:
-#             dice[i] = random.randint(1,6)
-#     resources = [resource_map[die] for die in dice]
-#     return dice, resources
-
-
-# def allocate_resources(resources, player):
-#     for resource in resources:
-#         if resource in player.resources:
-#             player.resources[resource] += 1
-
-# def check_achievements(players):
-#     longest_road_player = None
-#     largest_army_player = None
-
-#     for player in players:
-#         if player.roads >= 5:
-#             if longest_road_player is None or player.roads > longest_road_player.roads:
-#                 if longest_road_player:
-#                     longest_road_player.has_longest_road = False
-#                     longest_road_player.victory_points -= 2
-#                 longest_road_player = player
-#                 player.has_longest_road = True
-#                 player.victory_points += 2
-#         if player.knights >= 3:
-#             if largest_army_player is None or player.knights > largest_army_player.knights:
-#                 if largest_army_player:
-#                     largest_army_player.has_largest_army = False
-#                     largest_army_player.victory_points -= 2
-#                 largest_army_player = player
-#                 player.has_largest_army = True
-#                 player.victory_points += 2
-
 
 def main():
-    temp = {"Brendan": Player("Brendan"), "Sara": Player("Sara")}
-    players = currentPlayers(temp)
+    
+    number_of_players = input("Please enter the number of players: ")
+    while True:
+        try:
+            number_of_players = int(number_of_players)
+            print(f"The number of players entered is: {number_of_players}")
+            break
+        except ValueError:
+            number_of_players = input("Invalid input. Please enter a valid integer: ")
+        
+    player_names = {}    
+    
+    for _ in range(number_of_players):
+        user = input("Enter Name: ")    
+        player_names[user] = Player(user)
+    
+    # temp = {"Brendan": Player("Brendan"), "Sara": Player("Sara")}
+    players = currentPlayers(player_names)
     while True:
         if players.playersTurn():
             break
